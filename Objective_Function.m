@@ -1,5 +1,5 @@
 
-function [J] = pid_bike(x)
+function [J] = Objective_Function(x)
 
 %setting s as our continuous variable
 s = tf('s');
