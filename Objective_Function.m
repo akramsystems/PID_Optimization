@@ -6,7 +6,7 @@ s = tf('s');
 
 %plant function
 
-plant = (217.5*s + 2175) / (90.28*s^2 - 853.5); %example
+plant = 16.57 / (s^2 + 2.393*s - 45.34); %example
 
 %PID Values to tune for
 Kp = x(1);
