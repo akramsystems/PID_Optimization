@@ -1,32 +1,24 @@
 
 function [J] = Objective_Function(x)
 
-%setting s as our continuous variable
-s = tf('s');
-
-%plant function
-
-plant = 16.57 / (s^2 + 2.393*s - 45.34); %example
-
 %PID Values to tune for
 Kp = x(1);
 Kd = x(2);
 Ki = x(3);
 
+% pushes variables to workspace
+assignin('base','x_base',x); %sets x_base equal to x in your workspace since Matlab cant use values in a function
 
+model_name = 'model_1' % this is the name of your simulink model file you want to get the response from
 
-%PID Controller form
-cont = Kp + Kd*s + Ki/s;
-
-
-%use to see progression of response with optimized PID Values
-%step(feedback(plant*cont,1))
+a = sim('model_1','SimulationMode','normal');   %this runs the simulation
+b = a.get('simout');  % make sure to have a simout block in your simulink model to be able to get the response
 
 %interval and duration of time we want to compare squared error with
 dt = 0.001;
-t = 0:dt:2;
+t = 0:dt:1;
 
-error = 1 - step(feedback(plant*cont,1),t);
+error = 1 - b
 
-%squared error 
+%returns squared error 
 J = sum(t'.*abs(error)*dt);
